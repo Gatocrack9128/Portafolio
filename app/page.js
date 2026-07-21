@@ -187,5 +187,8 @@ export default function Home() {
         )}
       </section>
     </div>
+<footer className="footer">
+  <p>© {new Date().getFullYear()} Antuan David García Lima. Todos los derechos reservados.</p>
+</footer>
   );
 }
