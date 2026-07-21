@@ -186,9 +186,13 @@ export default function Home() {
           </div>
         )}
       </section>
+
+      {/* Pie de página con estilos inline para asegurar visibilidad */}
+      <footer className="footer" style={{ marginTop: '4rem', padding: '2rem 0', textAlign: 'center', borderTop: '1px solid rgba(255, 255, 255, 0.1)' }}>
+        <p style={{ color: '#94a3b8', fontSize: '0.9rem' }}>
+          © {new Date().getFullYear()} Antuan David García Lima. Todos los derechos reservados.
+        </p>
+      </footer>
     </div>
-<footer className="footer">
-          <p>© {new Date().getFullYear()} Antuan David García Lima. Todos los derechos reservados.</p>
-  </footer>
   );
 }
