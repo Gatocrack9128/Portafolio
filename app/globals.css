@@ -6,6 +6,15 @@
   padding: 0;
 }
 
+.footer {
+  text-align: center;
+  padding: 2rem 0;
+  color: #888; /* O el color secundario de tu paleta */
+  font-size: 0.9rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1); /* Línea sutil divisoria si usas tema oscuro */
+  margin-top: 4rem;
+}
+
 body {
   background-color: #030712;
   color: #f3f4f6;
