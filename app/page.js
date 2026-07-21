@@ -11,20 +11,31 @@ export default function Home() {
 
   useEffect(() => {
     async function fetchData() {
-      // 1. Perfil
-      const { data: perfilData } = await supabase.from('perfiles').select('*').single();
-      if (perfilData) setPerfil(perfilData);
+      // Temporizador de seguridad: si Supabase tarda más de 3.5 segundos, quita la pantalla de carga
+      const timeout = setTimeout(() => {
+        setLoading(false);
+      }, 3500);
 
-      // 2. Educación
-      const { data: eduData } = await supabase.from('experiencia_educacion').select('*').order('created_at', { ascending: false });
-      if (eduData) setEducacion(eduData);
+      try {
+        // 1. Perfil
+        const { data: perfilData } = await supabase.from('perfiles').select('*').single();
+        if (perfilData) setPerfil(perfilData);
 
-      // 3. Proyectos
-      const { data: proyData } = await supabase.from('proyectos').select('*').order('created_at', { ascending: false });
-      if (proyData) setProyectos(proyData);
+        // 2. Educación
+        const { data: eduData } = await supabase.from('experiencia_educacion').select('*').order('created_at', { ascending: false });
+        if (eduData) setEducacion(eduData);
 
-      setLoading(false);
+        // 3. Proyectos
+        const { data: proyData } = await supabase.from('proyectos').select('*').order('created_at', { ascending: false });
+        if (proyData) setProyectos(proyData);
+      } catch (err) {
+        console.error('Error cargando datos de Supabase:', err);
+      } finally {
+        clearTimeout(timeout);
+        setLoading(false);
+      }
     }
+
     fetchData();
   }, []);
 
@@ -47,13 +58,13 @@ export default function Home() {
           {perfil?.nombre_completo || 'Antuan David García Lima'}
         </h1>
         <p className="hero-subtitle">
-          Protección de Software y Desarrollo Web
+          {perfil?.titular || 'Protección de Software y Desarrollo Web'}
         </p>
         <p className="hero-bio">
           {perfil?.extracto || 'Orientado al sector tecnológico con interés en el desarrollo de software, ciberseguridad y análisis de sistemas.'}
         </p>
 
-        {/* Links de Redes Sociales (Instagram + LinkedIn) */}
+        {/* Links de Redes Sociales */}
         <div className="contact-bar">
           <a href="https://www.instagram.com/1adgl2/" target="_blank" rel="noreferrer" className="contact-btn">
             📸 Instagram Profile
@@ -136,7 +147,6 @@ export default function Home() {
             {proyectos.map((proyecto) => (
               <div key={proyecto.id} className="card">
                 <div>
-                  {/* Si el proyecto incluye una URL de imagen, la muestra aquí */}
                   {proyecto.imagen_url && (
                     <div className="card-image-wrapper">
                       <img 
